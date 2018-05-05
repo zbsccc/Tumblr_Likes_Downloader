@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel='stylesheet' href='/css/style.css' />
+    </head>
+    <body>
+        <div id="app" v-cloak>
+            <a href="/get" class="get-button" v-if="videos.length == 0">获取</a>
+            <div class="list">
+                <a v-for="video in videos" :href="video.video" target="_blank" class="item" :style="'background-image: url('+video.thumbnail+')'"></a>
+            </div>
+            <div class="buttons" v-if="videos.length > 0">
+                <button type="button" class="button" @click="last()">上一页</button>
+                <button type="button" class="button" @click="next()">下一页</button>
+            </div>
+        </div>
+        
+        <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            const data = JSON.parse('<%- videos %>')
+            const app = new Vue({
+                el: '#app',
+                data: {
+                    limit: 100,
+                    start: 0,
+                    end: 100,
+                    videos: []
+                },
+                methods: {
+                    first: function(){
+                        this.videos = data.slice(this.start, this.end)
+                    },
+                    last: function(){
+                        this.end = this.start;
+                        this.start = this.end - this.limit;
+                        if(this.start < 0){
+                            this.start = 0
+                        }
+                        this.end = this.start + this.limit;
+                        this.videos = data.slice(this.start, this.end)
+                    },
+                    next: function(){
+                        this.start = this.end;
+                        this.end = this.start + this.limit;
+                        this.videos = data.slice(this.start, this.end)
+                    }
+                }
+            })
+            app.first()
+        </script>
+    </body>
+</html>

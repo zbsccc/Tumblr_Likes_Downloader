@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href='/css/style.css' />
+  </head>
+  <body class="get">
+    <div id="app" v-cloak>
+        <form>
+            <div>
+                <label>Tumblr博客地址</label>
+                <input type="text" v-model="blog">
+            </div>
+            <div>
+                <label></label>
+                <span>
+                    填写自己的博客地址，不带https://，如 zbmccc.tumblr.com <br/>
+                    <strong>只能获取某人收藏的视频与视频封面</strong>
+                </span>
+            </div>
+            <div>
+                <label></label>
+                <button type="button" @click="get()" class="button">获取</button>
+                <button type="button" @click="get()" class="button" v-if="progress.skip < progress.all">下一批</button>
+                <a href="/list" class="button">开撸</a>
+            </div>
+            <div class="result" v-if="progress.status">开始下载...非常耗时，请耐心等待</div>
+            <div class="result" v-if="progress.all">
+                <i>您的收藏共有 {{progress.all}} 条</i>
+                <i>已下载成功 {{progress.success}} 条</i>
+                
+            </div>
+        </form>
+
+        <div class="desc">
+            <ol>
+                <li>首先需要在<a href="https://www.tumblr.com/oauth/apps">https://www.tumblr.com/oauth/apps</a>注册开发者</li>
+                <li>将consumer_key、consumer_secret、token、token_secret填写在config.js</li>
+                <li>以上信息可以在这个页面一次获取到<a href="https://api.tumblr.com/console/calls/user/info">查看</a></li>
+                <li>如收藏的条数特别多，上万条，请先到Bin/www中修改超时时间，目前设置为10分钟，5000条应该无压力</li>
+            </ol>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                progress: {
+                    status: false,
+                    all: null,
+                    success: null, //下载成功
+                },
+                blog: 'zbmccc.tumblr.com'
+            },
+            methods: {
+                get: function(){
+                    const that = this;
+                    that.progress.status = true;
+                    $.post('/doGet', {
+                        blog: that.blog
+                    }, function (r){
+                        that.progress.status = false
+                        that.progress = r
+                    })
+                }
+            }
+        })
+    </script>
+  </body>
+</html>
