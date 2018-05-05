@@ -6,4 +6,6 @@ a Tumblr Likes_Video Downloader
 
 Terminal cd 到目录
 
-npm run dev
+npm run dev 启动网站
+
+浏览器访问 localhost:3000
