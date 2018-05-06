@@ -40,6 +40,8 @@
                 <li>将consumer_key、consumer_secret、token、token_secret填写在config.js</li>
                 <li>以上信息可以在这个页面一次获取到<a href="https://api.tumblr.com/console/calls/user/info">查看</a></li>
                 <li>如收藏的条数特别多，上万条，请先到Bin/www中修改超时时间，目前设置为10分钟，5000条应该无压力</li>
+                <li>如果没有注册开发者，点“开撸”可以先浏览3000条</li>
+                <li>数据被保存在public/files中，data.txt保存的是视频地址和封面地址，可以通过本站读取浏览，videos.txt只保存视频地址，可以通过下载工具批量下载。两个文件内均已存在近3000条记录，新获取的数据会追加在后面，不喜欢可以先清空两个文件中的内容</li>
             </ol>
         </div>
     </div>
