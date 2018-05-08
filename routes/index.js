@@ -47,7 +47,7 @@ router.post('/doGet', async (ctx, next) => {
         success ++;
         console.log(success)
         content.push(data);
-        content2 = content2 + JSON.stringify(data.video) + '\n';
+        content2 = content2 + data.video + '\n';
       }
     })
   }
