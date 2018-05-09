@@ -8,7 +8,7 @@
     </head>
     <body>
         <div id="app" v-cloak>
-            <a href="/get" class="get-button" v-if="videos.length == 0">获取</a>
+            <a href="/" class="get-button" v-if="videos.length == 0">获取</a>
             <div class="list">
                 <a v-for="video in videos" :href="video.video" target="_blank" class="item" :style="'background-image: url('+video.thumbnail+')'"></a>
             </div>
